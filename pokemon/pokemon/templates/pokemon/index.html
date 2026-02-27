@@ -10,7 +10,7 @@
     <hr>
     <div class="row">
       <div class="col-md-6">
-        <a href="#" class="btn btn-outline-secondary">
+        <a href="{{ url_for('pokemon.new_pokemon') }}" class="btn btn-outline-secondary">
           <i class="bi bi-file-earmark-plus"></i>
           New Pokedex
         </a>
@@ -28,7 +28,7 @@
           <tr>
             <td>{{loop.index}}</td>
             <td>{{poke.name}}</td>
-            <td>{{poke.created_at}}</td>
+            <td>{{poke.created_at.strftime('%d-%m-%Y %H:%M:%S')}}</td>
           </tr>
         {% endfor %}
         
