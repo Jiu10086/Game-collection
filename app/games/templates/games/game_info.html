@@ -1,0 +1,74 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+  {{ title }}
+{% endblock %}
+
+{% block content %}
+  <div class="container mt-3 mb-3">
+    <a href="{{ url_for('games.index') }}" class="btn btn-outline-secondary mb-3">
+      <i class="bi bi-arrow-left"></i> Back to My Games
+    </a>
+
+    <div class="row">
+      <div class="col-md-5">
+        {% if game.image_url %}
+          <img src="{{ game.image_url }}" alt="{{ game.title }}" class="img-fluid rounded shadow" style="width: 100%; max-height: 450px; object-fit: cover;">
+        {% else %}
+          <div class="bg-secondary d-flex align-items-center justify-content-center rounded shadow" style="height: 350px;">
+            <i class="bi bi-controller text-white" style="font-size: 5rem;"></i>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="col-md-7">
+        <h1>{{ game.title }}</h1>
+        <hr>
+
+        {% if game.platform %}
+          <p>
+            <strong><i class="bi bi-display"></i> Platform:</strong>
+            {% for p in game.platform.split(', ') %}
+              <span class="badge bg-secondary">{{ p }}</span>
+            {% endfor %}
+          </p>
+        {% endif %}
+
+        {% if game.genre %}
+          <p>
+            <strong><i class="bi bi-tags"></i> Genre:</strong>
+            {% for g in game.genre.split(', ') %}
+              <span class="badge bg-info">{{ g }}</span>
+            {% endfor %}
+          </p>
+        {% endif %}
+
+        {% if game.status %}
+          <p>
+            <strong><i class="bi bi-flag"></i> Status:</strong>
+            <span class="badge bg-{{ 'success' if game.status == 'playing' else 'primary' if game.status == 'completed' else 'warning' if game.status == 'want_to_play' else 'danger' }}">
+              {{ game.status | replace('_', ' ') | title }}
+            </span>
+          </p>
+        {% endif %}
+
+        {% if game.rating %}
+          <p>
+            <strong><i class="bi bi-star-fill text-warning"></i> Rating:</strong> {{ game.rating }} / 10
+          </p>
+        {% endif %}
+
+        {% if game.note %}
+          <div class="mt-3">
+            <strong><i class="bi bi-journal-text"></i> Note:</strong>
+            <p class="mt-1">{{ game.note }}</p>
+          </div>
+        {% endif %}
+
+        <p class="text-muted small mt-3">
+          <i class="bi bi-calendar"></i> Added on {{ game.created_at.strftime('%d-%m-%Y') }}
+        </p>
+      </div>
+    </div>
+  </div>
+{% endblock %}

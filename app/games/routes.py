@@ -85,6 +85,15 @@ def delete_game(id):
     flash(f'Game "{game.title}" has been deleted.', 'success')
     return redirect(url_for('games.index'))
 
+@games_bp.route('/info/<int:id>')
+@login_required
+def game_info(id):
+    game = db.session.get(Game, id)
+    if not game or game.user_id != current_user.id:
+        flash('Game not found.', 'danger')
+        return redirect(url_for('games.index'))
+    return render_template('games/game_info.html', title=game.title, game=game)
+
 @games_bp.route('/search')
 @login_required
 def search():
