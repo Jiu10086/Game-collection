@@ -4,7 +4,9 @@ from app.models import Game
 from flask_login import current_user, login_required
 
 PLATFORMS = ['PC', 'PS5', 'PS4', 'Xbox', 'Nintendo Switch', 'Mobile']
-GENRES = ['RPG', 'Action', 'FPS', 'Puzzle', 'Adventure', 'Strategy', 'Sports']
+GENRES = ['RPG', 'Action', 'FPS', 'Puzzle', 'Adventure', 'Strategy', 'Sports', 'Indie', 'Soul-like', 'Horror', 
+          'Simulation', 'MMO', 'Fighting', 'Racing', 'Platformer', ''
+          'Sandbox', 'Survival', 'Visual Novel', 'Stealth', 'Rhythm']
 STATUSES = ['playing', 'completed', 'want_to_play', 'dropped']
 
 games_bp = Blueprint('games', __name__, template_folder='templates')
