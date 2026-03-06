@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
-from pokemon.models import User
-from pokemon.extension import db, bcrypt
+from app.models import User
+from app.extension import db, bcrypt
 from flask_login import login_user, logout_user, login_required, current_user
 
 user_bp = Blueprint('users', __name__, template_folder='templates')

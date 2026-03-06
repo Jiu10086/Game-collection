@@ -1,0 +1,110 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+  {{title}}
+{% endblock %}
+
+{% block content %}
+  <div class="container mt-3 mb-3">
+    {% if current_user.is_authenticated %}
+      <h1><i class="bi bi-speedometer2"></i> Dashboard</h1>
+      <hr>
+      <div class="row g-3">
+        <div class="col-md-3">
+          <div class="card text-bg-primary">
+            <div class="card-body text-center">
+              <h5 class="card-title"><i class="bi bi-collection"></i> Total Games</h5>
+              <h2>{{ total }}</h2>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card text-bg-success">
+            <div class="card-body text-center">
+              <h5 class="card-title"><i class="bi bi-play-circle"></i> Playing</h5>
+              <h2>{{ playing }}</h2>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card text-bg-info">
+            <div class="card-body text-center">
+              <h5 class="card-title"><i class="bi bi-trophy"></i> Completed</h5>
+              <h2>{{ completed }}</h2>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card text-bg-warning">
+            <div class="card-body text-center">
+              <h5 class="card-title"><i class="bi bi-bookmark-star"></i> Want to Play</h5>
+              <h2>{{ want_to_play }}</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-3">
+        <div class="col-md-3">
+          <div class="card text-bg-danger">
+            <div class="card-body text-center">
+              <h5 class="card-title"><i class="bi bi-x-circle"></i> Dropped</h5>
+              <h2>{{ dropped }}</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="mt-4"><i class="bi bi-clock-history"></i> Recently Added</h3>
+      <hr>
+      {% if recent_games %}
+        <div class="row g-3">
+          {% for game in recent_games %}
+            <div class="col-lg-4 col-md-6">
+              <div class="card card-game h-100">
+                {% if game.image_url %}
+                  <img src="{{ game.image_url }}" alt="{{ game.title }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+                {% endif %}
+                <div class="card-body">
+                  <h5 class="card-title">{{ game.title }}</h5>
+                  {% if game.platform %}
+                    {% for p in game.platform.split(', ') %}
+                      <span class="badge bg-secondary">{{ p }}</span>
+                    {% endfor %}
+                  {% endif %}
+                  {% if game.genre %}
+                    {% for g in game.genre.split(', ') %}
+                      <span class="badge bg-info">{{ g }}</span>
+                    {% endfor %}
+                  {% endif %}
+                  {% if game.status %}
+                    <span class="badge bg-{{ 'success' if game.status == 'playing' else 'primary' if game.status == 'completed' else 'warning' if game.status == 'want_to_play' else 'danger' }}">
+                      {{ game.status | replace('_', ' ') | title }}
+                    </span>
+                  {% endif %}
+                  {% if game.rating %}
+                    <span class="badge bg-dark">{{ game.rating }}/10</span>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="text-muted">No games added yet. <a href="{{ url_for('games.create_game') }}">Add your first game!</a></p>
+      {% endif %}
+    {% else %}
+      <div class="text-center mt-5">
+        <h1><i class="bi bi-controller"></i> Game Collection Tracker</h1>
+        <p class="lead mt-3">Track your game collection, rate your favorites, and manage your gaming backlog.</p>
+        <hr>
+        <a href="{{ url_for('users.register') }}" class="btn btn-primary btn-lg me-2">
+          <i class="bi bi-person-plus"></i> Register
+        </a>
+        <a href="{{ url_for('users.login') }}" class="btn btn-outline-secondary btn-lg">
+          <i class="bi bi-box-arrow-in-right"></i> Login
+        </a>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

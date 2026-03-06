@@ -1,10 +1,10 @@
 import os
 from flask import Flask
-from pokemon.extension import db, LoginManager, bcrypt
-from pokemon.models import User, Type, Pokemon
-from pokemon.core.routes import core_bp
-from pokemon.users.routes import user_bp    
-from pokemon.pokemon.routes import pokemon_bp
+from app.extension import db, LoginManager, bcrypt
+from app.models import User, Game
+from app.core.routes import core_bp
+from app.users.routes import user_bp    
+from app.games.routes import games_bp
 
 def create_app():
     app = Flask(__name__)
@@ -16,11 +16,11 @@ def create_app():
     LoginManager.init_app(app)
     LoginManager.login_view = 'users.login'
     LoginManager.login_message_category = 'danger'
-    LoginManager.login_message = 'Bro try na type routes'
+    LoginManager.login_message = 'Please login to access this page.'
     bcrypt.init_app(app)
 
     app.register_blueprint(core_bp, url_prefix='/')
     app.register_blueprint(user_bp, url_prefix='/users')
-    app.register_blueprint(pokemon_bp, url_prefix='/pokemon')
+    app.register_blueprint(games_bp, url_prefix='/games')
 
     return app

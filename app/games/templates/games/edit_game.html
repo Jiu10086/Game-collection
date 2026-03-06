@@ -1,0 +1,67 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+  {{title}}
+{% endblock %}
+
+{% block content %}
+  <div class="container mt-3 mb-3">
+    <h1><i class="bi bi-pencil"></i> {{title}}</h1>
+    <hr>
+    <div class="card mt-3">
+      <div class="card-header">
+        <h3>Edit Game: {{ game.title }}</h3>
+      </div>
+      <div class="card-body">
+        <form method="post">
+          <div class="mb-3">
+            <label for="title" class="form-label">Game Title</label>
+            <input name="title" type="text" class="form-control" id="title" value="{{ game.title }}" required>
+          </div>
+          <div class="mb-3">
+            <label for="platform" class="form-label">Platform</label>
+            <select name="platform" class="form-select" id="platform" multiple size="4">
+              {% for p in platforms %}
+                <option value="{{ p }}" {% if game.platform and p in game.platform.split(', ') %}selected{% endif %}>{{ p }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="genre" class="form-label">Genre</label>
+            <select name="genre" class="form-select" id="genre" multiple size="4">
+              {% for g in genres %}
+                <option value="{{ g }}" {% if game.genre and g in game.genre.split(', ') %}selected{% endif %}>{{ g }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="status" class="form-label">Status</label>
+            <select name="status" class="form-select" id="status">
+              <option value="">-- Select Status --</option>
+              {% for s in statuses %}
+                <option value="{{ s }}" {% if game.status == s %}selected{% endif %}>{{ s | replace('_', ' ') | title }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="rating" class="form-label">Rating (1-10)</label>
+            <input name="rating" type="number" class="form-control" id="rating" min="1" max="10" value="{{ game.rating if game.rating else '' }}">
+          </div>
+          <div class="mb-3">
+            <label for="image_url" class="form-label">Image URL</label>
+            <input name="image_url" type="text" class="form-control" id="image_url" value="{{ game.image_url if game.image_url else '' }}">
+          </div>
+          <div class="mb-3">
+            <label for="note" class="form-label">Note</label>
+            <textarea name="note" class="form-control" id="note" rows="3">{{ game.note if game.note else '' }}</textarea>
+          </div>
+          <hr>
+          <button type="submit" class="btn btn-outline-primary">
+            <i class="bi bi-check-circle"></i> Update Game
+          </button>
+          <a href="{{ url_for('games.index') }}" class="btn btn-outline-secondary">Cancel</a>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
