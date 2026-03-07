@@ -24,12 +24,15 @@ def index():
         dropped = db.session.scalar(
             db.select(db.func.count(Game.id)).where(Game.user_id == current_user.id, Game.status == 'dropped')
         ) or 0
-        recent_games = db.session.scalars(
-            db.select(Game).where(Game.user_id == current_user.id).order_by(Game.created_at.desc()).limit(5)
-        ).all()
+        page = request.args.get('page', 1, type=int)
+        per_page = 6
+        pagination = db.paginate(
+            db.select(Game).where(Game.user_id == current_user.id).order_by(Game.created_at.desc()),
+            page=page, per_page=per_page
+        )
         return render_template('core/index.html', title='Dashboard',
                                total=total, playing=playing, completed=completed,
                                want_to_play=want_to_play, dropped=dropped,
-                               recent_games=recent_games)
+                               recent_games=pagination.items, pagination=pagination)
     return render_template('core/index.html', title='Welcome')
 

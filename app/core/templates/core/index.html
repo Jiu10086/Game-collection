@@ -92,6 +92,7 @@
             </div>
           {% endfor %}
         </div>
+        {% include 'pagination.html' %}
       {% else %}
         <p class="text-muted">No games added yet. <a href="{{ url_for('games.create_game') }}">Add your first game!</a></p>
       {% endif %}

@@ -13,9 +13,7 @@
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       {% if current_user.is_authenticated %}
         <ul class="navbar-nav me-auto">
-          <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="{{ url_for('core.index') }}">Home</a>
-          </li>
+          
           <li class="nav-item">
             <a href="{{ url_for('games.index') }}" class="nav-link"><i class="bi bi-collection"></i> My Games</a>
           </li>
