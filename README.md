@@ -35,28 +35,28 @@
 
 ```
 game/
-├── main.py                  # จุดเริ่มต้นของแอป
+├── main.py                  
 ├── app/
-│   ├── __init__.py          # สร้าง Flask app (App Factory)
-│   ├── extension.py         # ตั้งค่า db, login_manager, bcrypt
-│   ├── models.py            # โมเดล User และ Game
-│   ├── core/                # Blueprint หน้าแรก (Dashboard)
-│   ├── games/               # Blueprint จัดการเกม (เพิ่ม/แก้/ลบ/ค้นหา/ดูรายละเอียด)
+│   ├── __init__.py          
+│   ├── extension.py         
+│   ├── models.py            
+│   ├── core/                
+│   ├── games/               
 │   │   └── templates/games/
-│   │       ├── index.html       # รายการเกมทั้งหมด
-│   │       ├── new_game.html    # ฟอร์มเพิ่มเกม
-│   │       ├── edit_game.html   # ฟอร์มแก้ไขเกม
-│   │       ├── game_info.html   # หน้ารายละเอียดเกม
-│   │       └── search.html      # ค้นหาเกม
-│   ├── users/               # Blueprint ระบบสมาชิก (สมัคร/ล็อกอิน/โปรไฟล์)
-│   ├── static/              # ไฟล์รูปภาพ
-│   └── templates/           # Layout, Navbar และ Pagination
-│       ├── layout.html          # โครงสร้างหลักของหน้าเว็บ
-│       ├── navbar.html          # แถบนำทาง
-│       └── pagination.html      # แถบเปลี่ยนหน้า (reusable)
-├── .env                     # ตัวแปรสภาพแวดล้อม (DATABASE_URL, SECRET_KEY)
-├── requirements.txt         # รายการ package ที่ต้องติดตั้ง
-└── pyproject.toml           # ตั้งค่าโปรเจค
+│   │       ├── index.html       
+│   │       ├── new_game.html    
+│   │       ├── edit_game.html   
+│   │       ├── game_info.html   
+│   │       └── search.html      
+│   ├── users/               
+│   ├── static/              
+│   └── templates/           
+│       ├── layout.html          
+│       ├── navbar.html          
+│       └── pagination.html      
+├── .env                     
+├── requirements.txt         
+└── pyproject.toml           
 ```
 
 ---
