@@ -2,10 +2,11 @@ from flask import Blueprint, render_template, redirect, url_for, flash, request,
 from app.extension import db
 from app.models import Game
 from flask_login import current_user, login_required
+from sqlalchemy.exc import SQLAlchemyError
 
 PLATFORMS = ['PC', 'PS5', 'PS4', 'Xbox', 'Nintendo Switch', 'Mobile']
 GENRES = ['RPG', 'Action', 'FPS', 'Puzzle', 'Adventure', 'Strategy', 'Sports', 'Indie', 'Soul-like', 'Horror', 
-          'Simulation', 'MMO', 'Fighting', 'Racing', 'Platformer', ''
+          'Simulation', 'MMO', 'Fighting', 'Racing', 'Platformer',
           'Sandbox', 'Survival', 'Visual Novel', 'Stealth', 'Rhythm']
 STATUSES = ['playing', 'completed', 'want_to_play', 'dropped']
 
@@ -41,7 +42,13 @@ def create_game():
             user_id=current_user.id
         )
         db.session.add(game)
-        db.session.commit()
+        try:
+            db.session.commit()
+        except SQLAlchemyError:
+            db.session.rollback()
+            flash('Could not save this game. Please check your data and try again.', 'danger')
+            return render_template('games/new_game.html', title='Add Game',
+                                   platforms=PLATFORMS, genres=GENRES, statuses=STATUSES)
         flash(f'Game "{title}" has been added!', 'success')
         return redirect(url_for('games.index'))
 
@@ -65,7 +72,13 @@ def edit_game(id):
         game.image_url = request.form.get('image_url')
         game.note = request.form.get('note')
 
-        db.session.commit()
+        try:
+            db.session.commit()
+        except SQLAlchemyError:
+            db.session.rollback()
+            flash('Could not update this game. Please check your data and try again.', 'danger')
+            return render_template('games/edit_game.html', title='Edit Game', game=game,
+                                   platforms=PLATFORMS, genres=GENRES, statuses=STATUSES)
         flash(f'Game "{game.title}" has been updated!', 'success')
         return redirect(url_for('games.index'))
 
